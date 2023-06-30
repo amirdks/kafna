@@ -59,11 +59,15 @@ header {
     color: white;
     font-size: 1.2rem;
 }
-
-.navbar-items-section li a:hover {
-    border-bottom: 2px solid purple;
-    padding: 5px 0;
+.quiz-success-section{
+    width: 100%;
+    height: 100vh;
 }
+
+/*.navbar-items-section li a:hover {*/
+/*    border-bottom: 2px solid purple;*/
+/*    padding: 5px 0;*/
+/*}*/
 
 .navbar-register-btn {
     padding: 10px 25px;
@@ -306,5 +310,13 @@ footer span {
     .text-preview-header{
         font-size: 1.5rem;
         line-height: 2.5rem;
+    }
+    .quiz-success-container{
+        width: 90%;
+        padding: 15px;
+        margin: 25px auto;
+    }
+    .quiz-success-container span{
+        font-size: 1.2rem;
     }
 }
