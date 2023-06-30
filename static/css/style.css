@@ -299,4 +299,12 @@ footer span {
     .quiz-form-submit-btn{
         width: 100%;
     }
+    .text-preview-description{
+        font-size: .9rem;
+        line-height: 2.4rem;
+    }
+    .text-preview-header{
+        font-size: 1.5rem;
+        line-height: 2.5rem;
+    }
 }
