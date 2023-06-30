@@ -1,0 +1,76 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>کافنا</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://kit.fontawesome.com/3b50011dc6.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    <nav id="navbar">
+        <div class="logo-section">
+            <img src="{% static 'images/logo1.jpg' %}" alt="">
+            <img src="{% static 'images/logo2.jpg' %}" alt="">
+            <h1>کافنا</h1>
+        </div>
+        <ul class="navbar-items-section">
+            <li><a href="#">خانه</a></li>
+            <li><a href="#">مقاله</a></li>
+            <li><a href="#">درباره ما</a></li>
+            <li><a href="#">تماس با ما</a></li>
+        </ul>
+        <div class="navbar-register-section">
+            <div class="navbar-register-btn">
+                <i class="fa-solid fa-user"></i><span>ورود / ثبت نام</span>
+            </div>
+        </div>
+    </nav>
+</header>
+{#<div class="home-gif-section">#}
+{#    <img src="{% static 'images/gif.gif' %}" alt="gif">#}
+{#</div>#}
+<div class="text-preview-section">
+    <div class="text-preview-header">
+        عنوان متن
+    </div>
+    <p class="text-preview-description">
+        این سامانه جهت هدایت شما به سمت اکوسیستم اشتغال فناورانه(هایتک) ساخته شده است.
+        ابتدا میبایست از طریق این فرم، در سامانه ثبت نام نمایید.
+        مرحله اول، شرکت در آزمون سنجش مهارتهای پایه در عرصه فناوری است. شما میتوانید از میان هجده رشته منتخب، سه رشته را
+        به دلخواه انتخاب نمایید.
+        کسب حداقل امتیاز ۷۰ برای اخذ مدرک "نیروی ماهر فناور" از سازمان نظام صنفی رایانه (نصر) الزامی است.
+        اخذ این مدرک شرط ابتدایی برای ورود به اکوسیستم اشتغال فناورانه است.
+        پس از آن شما به دو مسیر متفاوت هدایت خواهید شد:
+        استخدام در شرکتهای فناور و فعالیت ازادکاری(فریلنسری)
+        برای استخدام در شرکت های فناور باید در سامانه استخدام فناوران(سنجاب) ثبت نام کنید.
+        برای ورود به عرصه ی فریلنسری ابتدا باید در آزمون "مهارتهای ویژه ی آزادکاری" شرکت کرده و حداقل نمره ی ۸۰ را کسب
+        نمایید.
+        در این صورت شما موفق به اخذ "کارت عضویت رسمی" در سازمان نظام صنفی رایانه بعنوان " متخصص آزاد کار" خواهید شد که
+        مدرکی معتبر در تایید مهارتهای شماست و شرط ورود به سامانه فریلنسری "تکلنسر" می باشد.
+        همچنین با داشتن این کارت، میتوانید برای اخذ مجوز مشاغل خانکی فناورانه اقدام کنید که حکم جواز کار رسمی در کشور را
+        داشته و شما را مشمول اخذ وام ویژه ی خرید تجهیزات فناورانه خواهد کرد.
+
+        پیروز باشید
+    </p>
+</div>
+<div class="register-quiz-section">
+    <div class="register-quiz-title">
+        <span>ثبت نام در آزمون</span>
+        <span>برای ثبت نام در آزمون ما برروی لینک زیر کلیک کنید</span>
+    </div>
+    <a href="{% url 'register_quiz_view' %}" class="register-quiz-btn">
+        ثبت نام در آزمون
+    </a>
+</div>
+<footer>
+    <span>
+        تمامی حقوق این وبسایت محفوظ است
+    </span>
+</footer>
+</body>
+</html>

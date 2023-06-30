@@ -1,0 +1,258 @@
+@import "./reset.css";
+@import url("../fonts/Vazirmatn-font-face.css");
+
+html {
+    font-size: 100%;
+}
+
+body {
+    direction: rtl;
+    font-family: Vazirmatn, Sans-serif, Serif, Monospace, serif !important;
+    background-color: #f3f0f0;
+}
+
+header {
+    width: 100%;
+    background-color: #ed7b53;
+}
+
+#navbar {
+    width: 85%;
+    margin: 0 auto;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-section img {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    object-fit: cover;
+    margin: 0 10px;
+}
+
+.logo-section h1 {
+    font-size: 2rem;
+    color: white;
+}
+
+.navbar-items-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-items-section li {
+    margin: 0 15px;
+}
+
+.navbar-items-section li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.navbar-items-section li a:hover {
+    border-bottom: 2px solid purple;
+    padding: 5px 0;
+}
+
+.navbar-register-btn {
+    padding: 10px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: .3s all linear;
+}
+
+.navbar-register-btn:hover {
+    background-color: white;
+    opacity: .8;
+}
+
+.navbar-register-btn span {
+    margin-right: 10px;
+    color: white;
+}
+
+.navbar-register-btn:hover i {
+    color: purple;
+}
+
+.navbar-register-btn:hover span {
+    color: purple;
+}
+
+.navbar-register-btn i, svg {
+    font-size: 1.5rem;
+    color: white;
+}
+
+
+.text-preview-section {
+    width: 65%;
+    margin: 50px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 30px;
+}
+
+.text-preview-header {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.text-preview-description {
+    margin: 30px 0;
+    opacity: .7;
+    font-size: 1.1rem;
+    line-height: 2.7rem;
+}
+
+.register-quiz-section {
+    padding: 10px 0;
+    text-align: center;
+    position: absolute;
+    bottom: 60px;
+    width: 70%;
+    margin: 0 auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ed7b53;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.register-quiz-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 70%;
+}
+
+.register-quiz-title span:first-child {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.register-quiz-title span:last-child {
+    opacity: .8;
+}
+
+.register-quiz-title span {
+    margin: 10px;
+    color: white;
+}
+
+.register-quiz-btn {
+    border: 2px solid #4246fd;
+    /*border: 2px solid #e408fe;*/
+    padding: 15px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    /*background-image: linear-gradient(40deg, #e408fe 40%, transparent 50%);*/
+    background-image: linear-gradient(135deg, #4246fd 0, #881cf9 80%);
+    background-position: 100%;
+    background-size: 320%;
+    transition: all 1s;
+    display: inline-block;
+    margin: 0 auto;
+    /*width: 50%;*/
+    font-size: 1.5rem;
+    opacity: .8;
+    color: white;
+    text-decoration: none;
+}
+
+.register-quiz-btn:hover {
+    opacity: 1;
+    color: white;
+    background-position: 0;
+}
+
+
+footer {
+    text-align: center;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+footer span {
+    opacity: .8;
+}
+
+.quiz-form-container {
+    width: 50%;
+    margin: 0 auto;
+    background-color: white;
+}
+
+.quiz-form-title {
+    margin: 20px 0;
+    font-size: 1.5rem;
+    opacity: .8;
+}
+
+.quiz-form-section {
+    margin: 0 auto;
+}
+
+.quiz-form label {
+    margin-bottom: 8px;
+}
+
+.quiz-footer {
+    background-color: #ededed;
+    color: black;
+    opacity: 1;
+}
+
+.quiz-footer span {
+    color: black;
+    opacity: 1;
+}
+
+.quiz-success-container {
+    width: 50%;
+    margin: 50px auto;
+    background-color: #45ef45;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 0;
+    border-radius: 35px;
+}
+
+.quiz-success-container span {
+    color: white;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.quiz-success-btn {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+}
