@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
+from .form_errors import form_error
 from .forms import RegisterQuizForm
 
 
@@ -19,11 +20,12 @@ class RegisterQuizView(View):
         if form.is_valid():
             form.save()
             return render(request, "quiz_module/quiz_success.html")
+        print("valid nabood")
+        error = form_error(form)
+        print(error)
         context = {
             'form': form
         }
         return render(request, "quiz_module/register_quiz_page.html", context)
 
 
-class Test(TemplateView):
-    template_name = "quiz_module/quiz_success.html"

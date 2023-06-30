@@ -221,6 +221,16 @@ footer span {
 .quiz-form label {
     margin-bottom: 8px;
 }
+.quiz-form .errorlist li{
+    color: red;
+}
+.quiz-form span{
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: .9rem;
+    opacity: .8;
+}
 
 .quiz-footer {
     background-color: #ededed;
