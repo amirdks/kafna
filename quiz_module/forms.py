@@ -19,9 +19,6 @@ class RegisterQuizForm(forms.ModelForm):
             "field_3": "میتوانید خالی بگذارید",
         }
         labels = {
-            "full_name": "نام و نام خانوادگی * ",
-            "national_code": "کدملی * ",
-            "phone_number": "شماره تلفن همراه * ",
             "field": "انتخاب رشته اول * ",
             "field_2": "انتخاب رشته دوم",
             "field_3": "انتخاب رشته سوم",

@@ -65,10 +65,11 @@ class Quiz(models.Model):
 
 class QuizQuestion(models.Model):
     quiz = models.ForeignKey("Quiz", on_delete=models.CASCADE)
-    question_1 = models.TextField(verbose_name="سوال اول")
-    question_2 = models.TextField(verbose_name="سوال دوم")
-    question_3 = models.TextField(verbose_name="سوال سوم")
-    question_4 = models.TextField(verbose_name="سوال چهارم")
+    question = models.TextField(verbose_name="سوال")
+    option_1 = models.TextField(verbose_name="گزینه اول")
+    option_2 = models.TextField(verbose_name="گزینه دوم")
+    option_3 = models.TextField(verbose_name="گزینه سوم")
+    option_4 = models.TextField(verbose_name="گزینه چهارم")
     answer_number = models.PositiveSmallIntegerField(validators=[
         MaxValueValidator(4),
         MinValueValidator(1)

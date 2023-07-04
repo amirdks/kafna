@@ -387,5 +387,7 @@ pyrightconfig.json
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
-
+.idea/vcs.xml
+.idea/
+.idea/*
 # End of https://www.toptal.com/developers/gitignore/api/django,pycharm,venv,python

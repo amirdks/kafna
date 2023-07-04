@@ -1,0 +1,20 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+    <div class="user-panel-container">
+        <div class="user-panel-text">
+            سلام {{ request.user.full_name }}
+        </div>
+        {% if answers.exists %}
+            <ul>
+                {% for answer in answers %}
+                    <li>آزمون {{ answer.quiz.field.title }} : {{ answer.correct_percent }} درصد</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <a href="{% url 'quiz_view' %}" class="quiz-success-account">
+                شرکت در آزمون
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}

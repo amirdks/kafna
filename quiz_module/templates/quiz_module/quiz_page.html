@@ -1,0 +1,170 @@
+{% extends 'shared/_layout.html' %}
+{% load static %}
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="quiz-main-container">
+        {% if quiz_1 %}
+            <div class="quiz-main-section">
+                <div id="{{ quiz_1.id }}" class="quiz-main-title">آزمون {{ quiz_1.field.title }}</div>
+                {% for question in quiz_1.quizquestion_set.all %}
+                    <div class="quiz-section">
+                        <div class="quiz-question">{{ forloop.counter }} - {{ question.question }}</div>
+                        <div id="{{ question.id }}" class="quiz-answer-section">
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-1" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-1">{{ question.option_1 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-2" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-2">{{ question.option_2 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-3" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-3">{{ question.option_3 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-4" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-4">{{ question.option_4 }}</label>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if quiz_2 %}
+            <div class="quiz-main-section">
+                <div id="{{ quiz_2.id }}" class="quiz-main-title">آزمون {{ quiz_2.field.title }}</div>
+                {% for question in quiz_2.quizquestion_set.all %}
+                    <div class="quiz-section">
+                        <div class="quiz-question">{{ forloop.counter }} - {{ question.question }}</div>
+                        <div id="{{ question.id }}" class="quiz-answer-section">
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-1" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-1">{{ question.option_1 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-2" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-2">{{ question.option_2 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-3" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-3">{{ question.option_3 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-4" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-4">{{ question.option_4 }}</label>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if quiz_3 %}
+            <div class="quiz-main-section">
+                <div id="{{ quiz_3.id }}" class="quiz-main-title">آزمون {{ quiz_3.field.title }}</div>
+                {% for question in quiz_3.quizquestion_set.all %}
+                    <div class="quiz-section">
+                        <div class="quiz-question">{{ forloop.counter }} - {{ question.question }}</div>
+                        <div id="{{ question.id }}" class="quiz-answer-section">
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-1" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-1">{{ question.option_1 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-2" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-2">{{ question.option_2 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-3" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-3">{{ question.option_3 }}</label>
+                            </div>
+                            <div class="quiz-option-section">
+                                <input id="{{ question.id }}-4" name="{{ question.id }}" type="radio">
+                                <label for="{{ question.id }}-4">{{ question.option_4 }}</label>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div onclick="submitQuiz()" class="quiz-submit-button btn btn-success">
+            تایید و اتمام آزمون
+        </div>
+    </div>
+
+    <form method="post" id="http-form" action="{% url 'quiz_view' %}">
+        {% csrf_token %}
+    </form>
+
+{% endblock %}
+
+{% block custom_script %}
+    <script>
+        function submitQuiz() {
+            let quizOptionLength = document.querySelectorAll('.quiz-answer-section').length;
+            let answeredElementsLength = document.querySelectorAll(`input[type="radio"]:checked`).length;
+            if (answeredElementsLength !== quizOptionLength) {
+                showNotification({"status": "error", "message": "لطفا تمامی موارد را پاسخ دهید"}, "شکست")
+                return
+            }
+            let httpForm = document.getElementById("http-form")
+            let QuizElements = document.querySelectorAll(".quiz-main-section")
+            let lastData = []
+            QuizElements.forEach(element => {
+                let quizTitleElement = element.querySelector(".quiz-main-title")
+                let quizTitle = quizTitleElement.innerText
+                let quizId = quizTitleElement.getAttribute("id")
+                let quizOptionData = []
+                let quizOptionElements = element.querySelectorAll('.quiz-answer-section')
+                quizOptionElements.forEach(optionElement => {
+                    let optionId = optionElement.getAttribute("id")
+                    let answeredInput = optionElement.querySelector(`input[name="${optionId}"]:checked`)
+                    let answerId = answeredInput.id[answeredInput.id.length - 1]
+                    let quizAnswerData = {
+                        optionId: optionId,
+                        answerId: answerId,
+                    }
+                    quizOptionData.push(quizAnswerData)
+                })
+                let quizData = {
+                    title: quizTitle,
+                    id: quizId,
+                    optionData: quizOptionData,
+                }
+                lastData.push(quizData)
+            })
+            let formData = new FormData(httpForm);
+            formData.append("data", JSON.stringify(lastData))
+            $.ajax({
+                url: httpForm.getAttribute("action"),
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: formData,
+                // dataType: "json",
+                success: function (res) {
+                    let callBack = () => {
+                        let linkElement = document.createElement("a");
+                        linkElement.href = "/accounts/user-panel/";
+                        linkElement.click()
+                    }
+                    if (res.status === "success") {
+                        showNotification({
+                            ...res, callBack
+                        }, "موفق")
+                    } else if (res.status === "error") {
+                        showNotification({
+                            ...res, callBack
+                        }, "شکست")
+                    }
+                },
+                error: function (res) {
+                    console.log("error")
+                }
+            });
+        }
+
+    </script>
+{% endblock %}
