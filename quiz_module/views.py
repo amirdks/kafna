@@ -10,8 +10,10 @@ from .forms import RegisterQuizForm
 class RegisterQuizView(View):
     def get(self, request):
         form = RegisterQuizForm()
+        register_form = RegisterForm()
         context = {
-            'form': form
+            'form': form,
+            'register_form':register_form,
         }
         return render(request, "quiz_module/register_quiz_page.html", context)
 
@@ -20,9 +22,7 @@ class RegisterQuizView(View):
         if form.is_valid():
             form.save()
             return render(request, "quiz_module/quiz_success.html")
-        print("valid nabood")
         error = form_error(form)
-        print(error)
         context = {
             'form': form
         }

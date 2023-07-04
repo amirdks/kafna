@@ -1,16 +1,13 @@
 from django import forms
 
-from quiz_module.models import Quiz
+from quiz_module.models import QuizSubscription
 
 
 class RegisterQuizForm(forms.ModelForm):
     class Meta:
-        model = Quiz
-        exclude = ["created_at", "updated_at"]
+        model = QuizSubscription
+        exclude = ["user", "created_at", "updated_at"]
         widgets = {
-            "full_name": forms.TextInput(attrs={"class": "form-control"}),
-            "national_code": forms.TextInput(attrs={"class": "form-control"}),
-            "phone_number": forms.TextInput(attrs={"class": "form-control"}),
             "field": forms.Select(attrs={"class": "form-control"}),
             "field_2": forms.Select(attrs={"class": "form-control"}),
             "field_3": forms.Select(attrs={"class": "form-control"}),

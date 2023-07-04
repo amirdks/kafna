@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'quiz_module',
     'main_module',
+    'account_module',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,5 @@ MEDIA_URL = '/medias/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = "account_module.User"
+
