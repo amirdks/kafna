@@ -38,9 +38,14 @@
                 دیدن نتایج
             </a>
         {% else %}
-            <a href="{% url 'register_quiz_view' %}" class="register-quiz-btn">
-                ثبت نام در آزمون
-            </a>
+            <div class="main-page-btn-section">
+                <a href="{% url 'register_quiz_view' %}" class="register-quiz-btn register-quiz-btn-1">
+                    ورود کار آموز
+                </a>
+                <a href="{% url 'register_quiz_view' %}" class="register-quiz-btn">
+                    ورود کارجو
+                </a>
+            </div>
         {% endif %}
     </div>
 

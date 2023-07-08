@@ -18,18 +18,23 @@ class QuizField(models.Model):
 
 # Create your models here.
 class QuizSubscription(models.Model):
+    EDUCATIONAL_FIELD = [
+        ("HS", "دبیرستان"),
+        ("VS", "هنرستان")
+    ]
+    EDUCATIONAL_STAGE = [
+        ("tenth", "دهم"),
+        ("eleventh", "یازدهم"),
+        ("twelfth", "دوازدهم"),
+    ]
     user = models.ForeignKey("account_module.User", on_delete=models.CASCADE, verbose_name="کاربر")
-    field = models.ForeignKey(to="QuizField", help_text="این فیلد اجباری میباشد", related_name="first_field",
-                              on_delete=models.CASCADE,
-                              verbose_name="رشته انتخابی اول")
-    field_2 = models.ForeignKey(to="QuizField", related_name="second_field", null=True, blank=True,
-                                on_delete=models.CASCADE,
-                                help_text="میتوانید این مورد را خالی بگذارید",
-                                verbose_name="رشته انتخابی دوم")
-    field_3 = models.ForeignKey(to="QuizField", help_text="میتوانید این مورد را خالی بگذارید",
-                                related_name="third_field", null=True, blank=True,
-                                on_delete=models.CASCADE,
-                                verbose_name="رشته انتخابی سوم")
+    birthday = models.DateTimeField(verbose_name="تاریخ تولد")
+    fields = models.ManyToManyField("QuizField", verbose_name="رشته های انتخابی")
+    educational_field = models.CharField(choices=EDUCATIONAL_FIELD, max_length=2)
+    school_name = models.CharField(max_length=255, verbose_name="نام دبیرستان / هنرستان")
+    educational_stage = models.CharField(choices=EDUCATIONAL_STAGE, verbose_name="مقطع تحصیلی")
+    parent_phone_number = models.CharField(max_length=13, unique=True)
+    email = models.EmailField(max_length=255, verbose_name="ایمیل")
     image_file = models.FileField(upload_to="image_file",
                                   verbose_name="فایل تصویر",
                                   validators=[validate_file_extension])

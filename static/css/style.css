@@ -1,5 +1,5 @@
-@import "./reset.css";
 @import url("../fonts/Vazirmatn-font-face.css");
+@import url("./reset.css");
 
 html {
     font-size: 100%;
@@ -78,7 +78,9 @@ header {
     text-decoration: none;
     color: white;
     font-size: 1.2rem;
+    transition: all .2s;
 }
+
 
 .quiz-success-section {
     width: 100%;
@@ -130,6 +132,7 @@ header {
     margin: 50px auto;
     background-color: white;
     padding: 30px;
+    min-height: 65vh;
     border-radius: 30px;
 }
 
@@ -185,7 +188,8 @@ header {
 .register-quiz-btn {
     /*border: 2px solid #4246fd;*/
     /*border: 2px solid #e408fe;*/
-    padding: 15px 20px;
+    padding: 15px 0;
+    width: 160px;
     border-radius: 10px;
     cursor: pointer;
     /*background-image: linear-gradient(40deg, #e408fe 40%, transparent 50%);*/
@@ -200,6 +204,9 @@ header {
     opacity: .8;
     color: white;
     text-decoration: none;
+}
+.register-quiz-btn-1{
+    background-image: linear-gradient(135deg, #881cf9 0, #4246fd 80%);
 }
 
 .register-quiz-btn:hover {
@@ -260,6 +267,7 @@ footer span {
     background-color: #ededed;
     color: black;
     opacity: 1;
+    margin-top: 25px;
 }
 
 .quiz-footer span {
@@ -328,7 +336,15 @@ footer span {
     padding: 25px 0;
     font-size: 1.5rem;
 }
-
+.main-page-btn-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.main-page-btn-section a{
+    margin: 5px 0;
+}
 @media screen and (max-width: 500px) {
     .register-quiz-section {
         width: 95%;
