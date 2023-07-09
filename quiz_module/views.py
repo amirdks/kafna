@@ -11,7 +11,7 @@ from django.views.generic import TemplateView
 from account_module.forms import RegisterForm
 from .form_errors import form_error
 from .forms import RegisterQuizForm
-from .models import QuizSubscription, Quiz, QuizQuestion, QuizAnswer
+from .models import Quiz, QuizQuestion, QuizAnswer, InternSubscription
 
 User = get_user_model()
 
@@ -56,8 +56,8 @@ class TestView(TemplateView):
 class QuizView(LoginRequiredMixin, View):
     def get(self, request):
         try:
-            user_quiz_subscription = QuizSubscription.objects.get(user_id=request.user.id)
-        except QuizSubscription.DoesNotExist:
+            user_quiz_subscription = InternSubscription.objects.get(user_id=request.user.id)
+        except InternSubscription.DoesNotExist:
             raise Http404("لطفا ابتدا در آزمون شرکت کنید")
         field_1 = user_quiz_subscription.field
         field_2 = user_quiz_subscription.field_2

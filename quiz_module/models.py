@@ -17,7 +17,7 @@ class QuizField(models.Model):
 
 
 # Create your models here.
-class QuizSubscription(models.Model):
+class InternSubscription(models.Model):
     EDUCATIONAL_FIELD = [
         ("HS", "دبیرستان"),
         ("VS", "هنرستان")
@@ -31,8 +31,9 @@ class QuizSubscription(models.Model):
     birthday = models.DateTimeField(verbose_name="تاریخ تولد")
     fields = models.ManyToManyField("QuizField", verbose_name="رشته های انتخابی")
     educational_field = models.CharField(choices=EDUCATIONAL_FIELD, max_length=2)
+    student_code = models.CharField(max_length=255, verbose_name="شماره دانش آموزی")
     school_name = models.CharField(max_length=255, verbose_name="نام دبیرستان / هنرستان")
-    educational_stage = models.CharField(choices=EDUCATIONAL_STAGE, verbose_name="مقطع تحصیلی")
+    educational_stage = models.CharField(choices=EDUCATIONAL_STAGE,max_length=10, verbose_name="مقطع تحصیلی")
     parent_phone_number = models.CharField(max_length=13, unique=True)
     email = models.EmailField(max_length=255, verbose_name="ایمیل")
     image_file = models.FileField(upload_to="image_file",
@@ -47,6 +48,17 @@ class QuizSubscription(models.Model):
 
     def __str__(self):
         return self.user.full_name
+
+
+class JobSeekerSubscription(models.Model):
+    university_name = models.CharField(max_length=255, verbose_name="نام دانشگاه")
+    field_of_study = models.CharField(max_length=255, verbose_name="رشته تحصیلی")
+    email = models.EmailField(max_length=255, verbose_name="ایمیل")
+    image_file = models.FileField(upload_to="image_file",
+                                  verbose_name="فایل تصویر",
+                                  validators=[validate_file_extension])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Quiz(models.Model):

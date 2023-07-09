@@ -1,11 +1,11 @@
 from django import forms
 
-from quiz_module.models import QuizSubscription
+from quiz_module.models import InternSubscription
 
 
 class RegisterQuizForm(forms.ModelForm):
     class Meta:
-        model = QuizSubscription
+        model = InternSubscription
         exclude = ["user", "created_at", "updated_at"]
         widgets = {
             "field": forms.Select(attrs={"class": "form-control"}),
