@@ -17,3 +17,12 @@ function showNotification(res, status) {
         }
     });
 }
+
+var dp = new HaDateTimePicker("#datetime", {
+    isSolar: true,
+    disableTime: true,
+    resultFormat: '{year}-{month}-{day}',
+});
+$('#datetime').click(function () {
+    dp.show()
+})

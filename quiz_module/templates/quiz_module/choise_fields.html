@@ -1,0 +1,20 @@
+{% extends 'shared/_layout.html' %}
+{% load static %}
+{% block content %}
+    <div class="quiz-form-container">
+        <div class="quiz-form-title">
+            انتخاب رشته ها
+        </div>
+        <div class="quiz-form-section">
+            <form method="post" class="quiz-form" action="
+                    {% if type == "intern" %}{% url 'submit_inter_fields_view' %}{% elif type == "jobseeker" %}{% url 'submit_job_seeker_fields_view' %}{% endif %}">
+                {% csrf_token %}
+                {{ fields_form.as_p }}
+                <button type="submit" class="btn btn-success quiz-form-submit-btn">
+                    ارسال
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="modal-1"></div>
+{% endblock %}

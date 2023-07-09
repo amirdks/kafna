@@ -39,10 +39,11 @@
             </a>
         {% else %}
             <div class="main-page-btn-section">
-                <a href="{% url 'register_quiz_view' %}" class="register-quiz-btn register-quiz-btn-1">
+                <a href="{% url 'submit_phone_number_view' %}?type=intern"
+                   class="register-quiz-btn register-quiz-btn-1">
                     ورود کار آموز
                 </a>
-                <a href="{% url 'register_quiz_view' %}" class="register-quiz-btn">
+                <a href="{% url 'submit_phone_number_view' %}?type=jobseeker" class="register-quiz-btn">
                     ورود کارجو
                 </a>
             </div>

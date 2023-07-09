@@ -3,15 +3,16 @@ import math
 
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpRequest
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView
 
 from account_module.forms import RegisterForm
 from .form_errors import form_error
-from .forms import RegisterQuizForm
-from .models import Quiz, QuizQuestion, QuizAnswer, InternSubscription
+from .forms import JobSeekerRegisterForm, InternRegisterForm, InternFieldForm, JobSeekerFieldForm
+from .models import Quiz, QuizQuestion, QuizAnswer, InternSubscription, JobSeekerSubscription
 
 User = get_user_model()
 
@@ -84,7 +85,8 @@ class QuizView(LoginRequiredMixin, View):
     def post(self, request):
         answers = QuizAnswer.objects.filter(user_id=request.user.id)
         if answers.exists():
-            return JsonResponse({"status": "error", "message": "شما قبلا در آزمون شرکت کرده اید برای دیدن نتیجه برروی دکمه کلیک کنید"})
+            return JsonResponse(
+                {"status": "error", "message": "شما قبلا در آزمون شرکت کرده اید برای دیدن نتیجه برروی دکمه کلیک کنید"})
         json_data = request.POST.get("data")
         data = json.loads(json_data)
         result_message = ""
@@ -106,3 +108,166 @@ class QuizView(LoginRequiredMixin, View):
         print(result_message)
         return JsonResponse(
             {"status": "success", "message": result_message})
+
+
+class SendOtpCodeView(View):
+    http_method_names = ["post"]
+
+    def post(self, request: HttpRequest):
+        phone_number = request.POST.get("phone-number")
+        request.session['phone_number'] = phone_number
+        duplicated_user = User.objects.filter(phone_number__exact=phone_number).exists()
+        if duplicated_user:
+            return JsonResponse({"status": "error", "message": "کاربری با این شماره تلفن از قبل ثبت نام کرده است"})
+        return JsonResponse({"status": "success", "message": "کد تایید به شماره تلفن شما ارسال شد"})
+
+
+class SubmitPhoneNumberView(View):
+    def get(self, request):
+        context = {
+
+        }
+        return render(request, 'quiz_module/submit_phonenumber.html', context)
+
+    def post(self, request):
+        phone_number = request.session.get('phone_number', False)
+        otp_code = request.POST.get("otp-code", False)
+        request_type = request.POST.get("request-type", False)
+        if not request_type:
+            return JsonResponse({"status": "error", "message": "لطفا نوع درخواستتون رو مشخص کنید"})
+        if phone_number and otp_code:
+            if otp_code == "1234":
+                if request_type == "intern":
+                    redirect_url = reverse("intern_register_view")
+                elif request_type == "jobseeker":
+                    redirect_url = reverse("job_seeker_register_view")
+                else:
+                    return JsonResponse({"status": "error", "message": "لطفا نوع درخواستتون رو مشخص کنید"})
+                request.session['phone_number_verified'] = True
+                return JsonResponse({"status": "success", "redirect_url": redirect_url,
+                                     "message": "کد تایید شما تایید شد درحال تغییر مسیر"})
+            else:
+                return JsonResponse({"status": "error", "message": "کد تایید اشتباه است"})
+        else:
+            return JsonResponse({"status": "error", "message": "شماره تلفن یا کد تایید درست وارد نشده است"})
+
+
+class InternRegisterView(View):
+    def get(self, request):
+        intern_register_form = InternRegisterForm()
+        singup_form = RegisterForm()
+        context = {
+            "intern_register_form": intern_register_form,
+            "singup_form": singup_form,
+        }
+        return render(request, "quiz_module/intern_register.html", context)
+
+    def post(self, request):
+        singup_form = RegisterForm(request.POST)
+        intern_register_form = InternRegisterForm(request.POST, request.FILES)
+        phone_number = request.session.get('phone_number', False)
+        phone_number_verified = request.session.get('phone_number_verified', False)
+        if not phone_number_verified or not phone_number:
+            raise Http404("لطفا ابتدا شماره تلفن خود را تایید کنید")
+        if singup_form.is_valid() and intern_register_form.is_valid():
+            full_name = singup_form.cleaned_data.get("full_name")
+            national_code = singup_form.cleaned_data.get("national_code")
+            password = singup_form.cleaned_data.get("password")
+            new_user = User.objects.create_user(national_code, phone_number, password, full_name=full_name)
+            # login(request, new_user)
+            quiz_subscription = intern_register_form.save(commit=False)
+            quiz_subscription.user = new_user
+            quiz_subscription.save()
+            fields_form = InternFieldForm()
+            return render(request, 'quiz_module/choise_fields.html', {"fields_form": fields_form, "type": "intern"})
+        else:
+            context = {
+                "intern_register_form": intern_register_form,
+                "singup_form": singup_form,
+            }
+            return render(request, "quiz_module/intern_register.html", context)
+
+
+class JobSeekerRegisterView(View):
+    def get(self, request):
+        jobseeker_register_form = JobSeekerRegisterForm()
+        singup_form = RegisterForm()
+        context = {
+            "jobseeker_register_form": jobseeker_register_form,
+            "singup_form": singup_form,
+        }
+        return render(request, "quiz_module/jobseeker_register.html", context)
+
+    def post(self, request):
+        singup_form = RegisterForm(request.POST)
+        jobseeker_register_form = JobSeekerRegisterForm(request.POST, request.FILES)
+        phone_number = request.session.get('phone_number', False)
+        phone_number_verified = request.session.get('phone_number_verified', False)
+        if not phone_number_verified or not phone_number:
+            raise Http404("لطفا ابتدا شماره تلفن خود را تایید کنید")
+        if singup_form.is_valid() and jobseeker_register_form.is_valid():
+            full_name = singup_form.cleaned_data.get("full_name")
+            national_code = singup_form.cleaned_data.get("national_code")
+            password = singup_form.cleaned_data.get("password")
+            fields_form = JobSeekerFieldForm()
+            try:
+                new_user = User.objects.create_user(national_code, phone_number, password, full_name=full_name)
+            except Exception as e:
+                return render(request, 'quiz_module/choise_fields.html',
+                              {"fields_form": fields_form, "type": "jobseeker"})
+            # login(request, new_user)
+            quiz_subscription = jobseeker_register_form.save(commit=False)
+            quiz_subscription.user = new_user
+            quiz_subscription.save()
+
+            return render(request, 'quiz_module/choise_fields.html', {"fields_form": fields_form, "type": "jobseeker"})
+        else:
+            context = {
+                "jobseeker_register_form": jobseeker_register_form,
+                "singup_form": singup_form,
+            }
+            return render(request, "quiz_module/jobseeker_register.html", context)
+
+
+class SubmitInternFieldView(View):
+    def post(self, request):
+        form = InternFieldForm(request.POST)
+        phone_number = request.session.get('phone_number', False)
+        phone_number_verified = request.session.get('phone_number_verified', False)
+        if not phone_number_verified or not phone_number:
+            raise Http404("لطفا ابتدا شماره تلفن خود را تایید کنید")
+        if form.is_valid():
+            fields = form.cleaned_data.get("fields")
+            if fields.count() > 3 or fields.count() <= 0:
+                form.add_error("fields", "حداقل باید یه رشته و حداکثر سه تا رشته انتخاب کنید")
+            else:
+                try:
+                    intern_register = InternSubscription.objects.get(user__phone_number=phone_number)
+                except InternSubscription.DoesNotExist:
+                    return Http404("لطفا ابتدا در آزمون ثبت نام کنید")
+                for field in fields:
+                    intern_register.fields.add(field)
+            return render(request, 'quiz_module/quiz_success.html')
+        return render(request, 'quiz_module/choise_fields.html', {"fields_form": form, "type": "intern"})
+
+
+class SubmitJobSeekerFieldView(View):
+    def post(self, request):
+        form = JobSeekerFieldForm(request.POST)
+        phone_number = request.session.get('phone_number', False)
+        phone_number_verified = request.session.get('phone_number_verified', False)
+        if not phone_number_verified or not phone_number:
+            raise Http404("لطفا ابتدا شماره تلفن خود را تایید کنید")
+        if form.is_valid():
+            fields = form.cleaned_data.get("fields")
+            if fields.count() > 3 or fields.count() <= 0:
+                form.add_error("fields", "حداقل باید یه رشته و حداکثر سه تا رشته انتخاب کنید")
+            else:
+                try:
+                    jobseeker_register = JobSeekerSubscription.objects.get(user__phone_number=phone_number)
+                except JobSeekerSubscription.DoesNotExist:
+                    return Http404("لطفا ابتدا در آزمون ثبت نام کنید")
+                for field in fields:
+                    jobseeker_register.fields.add(field)
+            return render(request, 'quiz_module/quiz_success.html')
+        return render(request, 'quiz_module/choise_fields.html', {"fields_form": form, "type": "jobseeker"})

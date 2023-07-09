@@ -1,0 +1,21 @@
+{% extends 'shared/_layout.html' %}
+{% load static %}
+{% block content %}
+    <div class="quiz-form-container">
+        <div class="quiz-form-title">
+            فرم ثبت نام کارآموز
+        </div>
+        <div class="quiz-form-section">
+            <form method="post" class="quiz-form" action="{% url 'intern_register_view' %}"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ intern_register_form.as_p }}
+                {{ singup_form.as_p }}
+                <button type="submit" class="btn btn-success quiz-form-submit-btn">
+                    ارسال
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="modal-1"></div>
+{% endblock %}

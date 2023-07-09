@@ -13,6 +13,7 @@
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/3b50011dc6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'js/ha-datetimepicker.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block custom_style %}{% endblock %}
 </head>
@@ -49,6 +50,10 @@
 </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="{% static 'js/sweetalert2@11' %}"></script>
+<script type="text/javascript" src="{% static 'js/ha-solardate.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ha-lunardate.min.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'js/ha-datetimepicker.min.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
 {% block custom_script %}{% endblock %}
 </body>

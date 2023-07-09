@@ -1,0 +1,98 @@
+{% extends 'shared/_layout.html' %}
+{% load static %}
+{% block content %}
+    <div class="quiz-form-container">
+        <div class="quiz-form-title">
+            تایید شماره تلفن همراه
+        </div>
+        <div class="submit-phone-number-container">
+            <div class="submit-phone-number-section">
+                <form id="submit-phone-number-form" action="{% url 'send_otp_code_view' %}" method="post">
+                    {% csrf_token %}
+                    <input name="phone-number" class="form-control" type="text" placeholder="شماره تلفن همراه ...">
+                    <button id="submit-phone-number-btn" type="submit">
+                        ارسال کد تایید
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-1"></div>
+{% endblock %}
+{% block custom_script %}
+    <script>
+        let form = document.querySelector("#submit-phone-number-form");
+        let submitBtn = document.querySelector('#submit-phone-number-btn');
+        let phoneNumberInput = document.querySelector("input[name='phone-number']");
+        let otpInput = document.createElement("input");
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestType = urlParams.get('type');
+        console.log(requestType)
+        otpInput.setAttribute("name", "otp-code")
+        otpInput.setAttribute("placeholder", "کد تایید ارسال شده")
+        otpInput.classList.add("form-control")
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            $body = $("body");
+            $(document).ajaxStart(function () {
+                $body.addClass("loading");
+            });
+            $(document).ajaxStop(function () {
+                $body.removeClass("loading");
+            })
+            if (form.hasAttribute("sent")) {
+                let formData = new FormData(event.target);
+                formData.append("request-type", requestType)
+                $.ajax({
+                    async: true,
+                    type: event.target.getAttribute('method'),
+                    url: event.target.getAttribute('action'),
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            showNotification(res, "موفق")
+                            setTimeout(() => {
+                                let newLinkElement = document.createElement("a");
+                                newLinkElement.href = res.redirect_url;
+                                newLinkElement.click();
+                            }, 2000)
+                        } else {
+                            showNotification(res, "شکست")
+                        }
+                    },
+                    error: function (request, status, error) {
+                        console.log(error)
+                    }
+                });
+            } else {
+                let formData = new FormData(event.target);
+                $.ajax({
+                    async: true,
+                    type: event.target.getAttribute('method'),
+                    url: event.target.getAttribute('action'),
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            phoneNumberInput.setAttribute("disabled", "");
+                            phoneNumberInput.parentNode.insertBefore(otpInput, phoneNumberInput.nextSibling);
+                            submitBtn.innerText = "تایید کد ارسال شده";
+                            form.setAttribute("sent", "")
+                            form.setAttribute("action", "/quiz/submit-phone-number/")
+                        } else {
+                            showNotification(res, "شکست")
+                        }
+                    },
+                    error: function (request, status, error) {
+                        console.log(error)
+                    }
+                });
+            }
+        })
+    </script>
+{% endblock %}
