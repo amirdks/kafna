@@ -10,6 +10,7 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from account_module.forms import RegisterForm
+from utils.send_email import Util
 from .form_errors import form_error
 from .forms import JobSeekerRegisterForm, InternRegisterForm, InternFieldForm, JobSeekerFieldForm
 from .models import Quiz, QuizQuestion, QuizAnswer, InternSubscription, JobSeekerSubscription
@@ -247,6 +248,10 @@ class SubmitInternFieldView(View):
                     return Http404("لطفا ابتدا در آزمون ثبت نام کنید")
                 for field in fields:
                     intern_register.fields.add(field)
+                Util.send_email({"email_subject": "ثبت نام کارآموز جدید", "email_body":
+                    f"کارآموز جدید به اسم {intern_register.user.full_name} و شماره تلفن {intern_register.user.phone_number} و کد ملی {intern_register.user.national_code}ثبت نام کرد",
+                                 "to_email": ["kataunasgari@gmail.com", "jalilimba@gmail.com",
+                                              "amirhossein6168@gmail.com"]})
             return render(request, 'quiz_module/quiz_success.html')
         return render(request, 'quiz_module/choise_fields.html', {"fields_form": form, "type": "intern"})
 
@@ -269,5 +274,9 @@ class SubmitJobSeekerFieldView(View):
                     return Http404("لطفا ابتدا در آزمون ثبت نام کنید")
                 for field in fields:
                     jobseeker_register.fields.add(field)
+                Util.send_email({"email_subject": "ثبت نام کارجو جدید", "email_body":
+                    f"کارجو جدید به اسم {jobseeker_register.user.full_name} و شماره تلفن {jobseeker_register.user.phone_number} و کد ملی {jobseeker_register.user.national_code}ثبت نام کرد",
+                                 "to_email": ["kataunasgari@gmail.com", "jalilimba@gmail.com",
+                                              "amirhossein6168@gmail.com"]})
             return render(request, 'quiz_module/quiz_success.html')
         return render(request, 'quiz_module/choise_fields.html', {"fields_form": form, "type": "jobseeker"})
