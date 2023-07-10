@@ -133,20 +133,20 @@ class SubmitPhoneNumberView(View):
     def post(self, request):
         phone_number = request.session.get('phone_number', False)
         otp_code = request.POST.get("otp-code", False)
-        request_type = request.POST.get("request-type", False)
-        if not request_type:
-            return JsonResponse({"status": "error", "message": "لطفا نوع درخواستتون رو مشخص کنید"})
+        # request_type = request.POST.get("request-type", False)
+        # if not request_type:
+        #     return JsonResponse({"status": "error", "message": "لطفا نوع درخواستتون رو مشخص کنید"})
         if phone_number and otp_code:
             if otp_code == "1234":
-                if request_type == "intern":
-                    redirect_url = reverse("intern_register_view")
-                elif request_type == "jobseeker":
-                    redirect_url = reverse("job_seeker_register_view")
-                else:
-                    return JsonResponse({"status": "error", "message": "لطفا نوع درخواستتون رو مشخص کنید"})
+                # if request_type == "intern":
+                #     redirect_url = reverse("intern_register_view")
+                # elif request_type == "jobseeker":
+                #     redirect_url = reverse("job_seeker_register_view")
+                # else:
+                #     return JsonResponse({"status": "error", "message": "لطفا نوع درخواستتون رو مشخص کنید"})
                 request.session['phone_number_verified'] = True
-                return JsonResponse({"status": "success", "redirect_url": redirect_url,
-                                     "message": "کد تایید شما تایید شد درحال تغییر مسیر"})
+                return JsonResponse({"status": "success",
+                                     "message": "کد تایید شما تایید شد"})
             else:
                 return JsonResponse({"status": "error", "message": "کد تایید اشتباه است"})
         else:

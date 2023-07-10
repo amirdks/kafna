@@ -247,7 +247,14 @@ footer span {
 .quiz-form-section {
     margin: 0 auto;
 }
-
+.quiz-form-section .send-otp-btn{
+    border: none;
+    outline: none;
+    background-color: #45ef45;
+    border-radius: 25px;
+    color: #fff;
+    padding: 10px 20px;
+}
 .quiz-form label {
     margin-top: 15px;
     margin-bottom: 5px;
@@ -375,6 +382,25 @@ footer span {
     color: #fff;
     border-radius: 20px;
     padding: 10px 20px;
+}
+.disabled-otp-btn{
+    background-color: #4A5867!important;
+}
+.support-container{
+    background-color: #ccc;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 50px;
+    border-radius: 30px;
+    padding: 50px;
+    font-size: 1.5rem;
+}
+.support-container ul li{
+    margin: 20px 0;
+}
+.support-container ul li a{
+    color: #797cef;
+    text-decoration: none;
 }
 @media screen and (max-width: 500px) {
     .register-quiz-section {

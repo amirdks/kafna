@@ -9,13 +9,103 @@
             <form method="post" class="quiz-form" action="{% url 'intern_register_view' %}"
                   enctype="multipart/form-data">
                 {% csrf_token %}
+                <input name="phone-number" type="text" class="form-control phone-number-input"
+                       placeholder="شماره تلفن همراه ...">
+                <button class="send-otp-btn" type="button">ارسال کد</button>
                 {{ intern_register_form.as_p }}
                 {{ singup_form.as_p }}
-                <button type="submit" class="btn btn-success quiz-form-submit-btn">
+                <button type="submit" class="btn btn-success quiz-form-submit-btn disabled-otp-btn" disabled>
                     ارسال
                 </button>
             </form>
         </div>
     </div>
     <div class="modal-1"></div>
+{% endblock %}
+{% block custom_script %}
+    <script>
+        let form = document.querySelector(".quiz-form");
+        let submitBtn = document.querySelector('.send-otp-btn');
+        let formSubmitBtn = document.querySelector(".quiz-form-submit-btn");
+        let phoneNumberInput = document.querySelector("input[name='phone-number']");
+        let otpInput = document.createElement("input");
+        {#const urlParams = new URLSearchParams(window.location.search);#}
+        {#const requestType = urlParams.get('type');#}
+        otpInput.setAttribute("name", "otp-code")
+        otpInput.setAttribute("placeholder", "کد تایید ارسال شده")
+        otpInput.classList.add("form-control")
+        submitBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            $body = $("body");
+            $(document).ajaxStart(function () {
+                $body.addClass("loading");
+            });
+            $(document).ajaxStop(function () {
+                $body.removeClass("loading");
+            })
+            if (form.hasAttribute("sent")) {
+                let formData = new FormData();
+                formData.append("phone-number", phoneNumberInput.value)
+                formData.append("otp-code", otpInput.value)
+                formData.append("csrfmiddlewaretoken", document.querySelector("input[name='csrfmiddlewaretoken']").value)
+                $.ajax({
+                    async: true,
+                    type: "post",
+                    url: "/quiz/submit-phone-number/",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            showNotification(res, "موفق")
+                            otpInput.setAttribute("disabled", "")
+                            submitBtn.setAttribute("disabled", "")
+                            submitBtn.classList.add("disabled-otp-btn")
+                            submitBtn.innerText = "تایید شده";
+                            formSubmitBtn.classList.remove("disabled-otp-btn")
+                            formSubmitBtn.removeAttribute("disabled")
+                            //     setTimeout(() => {
+                            //       let newLinkElement = document.createElement("a");
+                            //     newLinkElement.href = res.redirect_url;
+                            //   newLinkElement.click();
+                            //}, 2000)
+                        } else {
+                            showNotification(res, "شکست")
+                        }
+                    },
+                    error: function (request, status, error) {
+                        console.log(error)
+                    }
+                });
+            } else {
+                let formData = new FormData();
+                formData.append("phone-number", phoneNumberInput.value)
+                formData.append("csrfmiddlewaretoken", document.querySelector("input[name='csrfmiddlewaretoken']").value)
+                $.ajax({
+                    async: true,
+                    type: "post",
+                    url: "{% url 'send_otp_code_view' %}",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            phoneNumberInput.setAttribute("disabled", "");
+                            phoneNumberInput.parentNode.insertBefore(otpInput, phoneNumberInput.nextSibling);
+                            submitBtn.innerText = "تایید کد ارسال شده";
+                            form.setAttribute("sent", "")
+                            {#form.setAttribute("action", "/quiz/submit-phone-number/")#}
+                        } else {
+                            showNotification(res, "شکست")
+                        }
+                    },
+                    error: function (request, status, error) {
+                        console.log(error)
+                    }
+                });
+            }
+        })
+    </script>
 {% endblock %}

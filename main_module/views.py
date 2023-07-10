@@ -15,3 +15,11 @@ class IndexView(View):
             "answers": answers,
         }
         return render(request, 'main_module/home_page.html', context)
+
+
+class SupportView(TemplateView):
+    template_name = "main_module/support-page.html"
+
+
+class AboutUsView(TemplateView):
+    template_name = "main_module/about-us-page.html"

@@ -25,15 +25,15 @@
             <img src="{% static 'images/logo2.jpg' %}" alt="">
             <h1>کافنا</h1>
         </a>
-        {% if request.user.is_authenticated %}
-            <a class="navbar-user-panel" href="{% url 'user_panel_view' %}">
-                <i class="fa-solid fa-user"></i>
-                <span>حساب کاربری</span>
-            </a>
-        {% endif %}
+{#        {% if request.user.is_authenticated %}#}
+{#            <a class="navbar-user-panel" href="{% url 'user_panel_view' %}">#}
+{#                <i class="fa-solid fa-user"></i>#}
+{#                <span>حساب کاربری</span>#}
+{#            </a>#}
+{#        {% endif %}#}
         <ul class="navbar-items-section">
-            <li><a href="#">پشتیبانی</a></li>
-            <li><a href="#">درباره ما</a></li>
+            <li><a href="{% url 'support_view' %}">پشتیبانی</a></li>
+            <li><a href="{% url 'about_us_view' %}">درباره ما</a></li>
         </ul>
         {#                <div class="navbar-register-section">#}
         {#                    <div class="navbar-register-btn">#}
