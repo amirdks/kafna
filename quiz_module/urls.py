@@ -9,6 +9,6 @@ urlpatterns = [
     path("submit-phone-number/", views.SubmitPhoneNumberView.as_view(), name="submit_phone_number_view"),
     path("submit-intern-fields/", views.SubmitInternFieldView.as_view(), name="submit_inter_fields_view"),
     path("submit-jobseeker-fields/", views.SubmitJobSeekerFieldView.as_view(), name="submit_job_seeker_fields_view"),
-    path("test/", views.TestView.as_view(), name="test_view"),
+    # path("test/", views.TestView.as_view(), name="test_view"),
     path("quiz/", views.QuizView.as_view(), name="quiz_view")
 ]

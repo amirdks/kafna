@@ -3,13 +3,11 @@ import json
 import math
 import random
 
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, JsonResponse, HttpRequest
 from django.shortcuts import render
-from django.urls import reverse
 from django.views import View
-from django.views.generic import TemplateView
 from unidecode import unidecode
 
 from account_module.forms import RegisterForm
@@ -17,7 +15,6 @@ from account_module.models import Otp
 from utils.phone_number_validator import phone_number_validator
 from utils.send_email import Util
 from utils.send_otp_code import send_otp_code
-from .form_errors import form_error
 from .forms import JobSeekerRegisterForm, InternRegisterForm, InternFieldForm, JobSeekerFieldForm
 from .models import Quiz, QuizQuestion, QuizAnswer, InternSubscription, JobSeekerSubscription
 
@@ -25,40 +22,40 @@ User = get_user_model()
 
 
 # Create your views here.
-class RegisterQuizView(View):
-    def get(self, request):
-        form = RegisterQuizForm()
-        register_form = RegisterForm()
-        context = {
-            'form': form,
-            'register_form': register_form,
-        }
-        return render(request, "quiz_module/register_quiz_page.html", context)
+# class RegisterQuizView(View):
+#     def get(self, request):
+#         form = RegisterQuizForm()
+#         register_form = RegisterForm()
+#         context = {
+#             'form': form,
+#             'register_form': register_form,
+#         }
+#         return render(request, "quiz_module/register_quiz_page.html", context)
+#
+#     def post(self, request):
+#         form = RegisterQuizForm(request.POST, request.FILES)
+#         register_form = RegisterForm(request.POST)
+#         if form.is_valid() and register_form.is_valid():
+#             full_name = register_form.cleaned_data.get("full_name")
+#             national_code = register_form.cleaned_data.get("national_code")
+#             phone_number = register_form.cleaned_data.get("phone_number")
+#             password = register_form.cleaned_data.get("password")
+#             new_user = User.objects.create_user(national_code, phone_number, password, full_name=full_name)
+#             login(request, new_user)
+#             quiz_subscription = form.save(commit=False)
+#             quiz_subscription.user = new_user
+#             quiz_subscription.save()
+#             return render(request, "quiz_module/quiz_success.html")
+#         error = form_error(form)
+#         context = {
+#             'form': form,
+#             'register_form': register_form,
+#         }
+#         return render(request, "quiz_module/register_quiz_page.html", context)
 
-    def post(self, request):
-        form = RegisterQuizForm(request.POST, request.FILES)
-        register_form = RegisterForm(request.POST)
-        if form.is_valid() and register_form.is_valid():
-            full_name = register_form.cleaned_data.get("full_name")
-            national_code = register_form.cleaned_data.get("national_code")
-            phone_number = register_form.cleaned_data.get("phone_number")
-            password = register_form.cleaned_data.get("password")
-            new_user = User.objects.create_user(national_code, phone_number, password, full_name=full_name)
-            login(request, new_user)
-            quiz_subscription = form.save(commit=False)
-            quiz_subscription.user = new_user
-            quiz_subscription.save()
-            return render(request, "quiz_module/quiz_success.html")
-        error = form_error(form)
-        context = {
-            'form': form,
-            'register_form': register_form,
-        }
-        return render(request, "quiz_module/register_quiz_page.html", context)
 
-
-class TestView(TemplateView):
-    template_name = 'quiz_module/quiz_success.html'
+# class TestView(TemplateView):
+#     template_name = 'quiz_module/quiz_success.html'
 
 
 class QuizView(LoginRequiredMixin, View):
@@ -269,7 +266,7 @@ class SubmitInternFieldView(View):
                     f"کارآموز جدید به اسم {intern_register.user.full_name} و شماره تلفن {intern_register.user.phone_number} و کد ملی {intern_register.user.national_code}ثبت نام کرد",
                                  "to_email": ["kataunasgari@gmail.com", "jalilimba@gmail.com",
                                               "amirhossein6168@gmail.com"]})
-            return render(request, 'quiz_module/quiz_success.html')
+                return render(request, 'quiz_module/quiz_success.html', {"name": intern_register.user.full_name})
         return render(request, 'quiz_module/choise_fields.html', {"fields_form": form, "type": "intern"})
 
 
@@ -295,5 +292,5 @@ class SubmitJobSeekerFieldView(View):
                     f"کارجو جدید به اسم {jobseeker_register.user.full_name} و شماره تلفن {jobseeker_register.user.phone_number} و کد ملی {jobseeker_register.user.national_code}ثبت نام کرد",
                                  "to_email": ["kataunasgari@gmail.com", "jalilimba@gmail.com",
                                               "amirhossein6168@gmail.com"]})
-            return render(request, 'quiz_module/quiz_success.html')
+                return render(request, 'quiz_module/quiz_success.html', {"name": jobseeker_register.user.full_name})
         return render(request, 'quiz_module/choise_fields.html', {"fields_form": form, "type": "jobseeker"})
