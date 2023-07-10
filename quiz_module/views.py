@@ -1,5 +1,7 @@
+import datetime
 import json
 import math
+import random
 
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,7 +12,10 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from account_module.forms import RegisterForm
+from account_module.models import Otp
+from utils.phone_number_validator import phone_number_validator
 from utils.send_email import Util
+from utils.send_otp_code import send_otp_code
 from .form_errors import form_error
 from .forms import JobSeekerRegisterForm, InternRegisterForm, InternFieldForm, JobSeekerFieldForm
 from .models import Quiz, QuizQuestion, QuizAnswer, InternSubscription, JobSeekerSubscription
@@ -114,13 +119,29 @@ class QuizView(LoginRequiredMixin, View):
 class SendOtpCodeView(View):
     http_method_names = ["post"]
 
+    @staticmethod
+    def otp_generator():
+        return random.randint(0, 90000) + 10000
+
     def post(self, request: HttpRequest):
         phone_number = request.POST.get("phone-number")
+        print(phone_number)
+        try:
+            phone_number_validator(phone_number)
+        except ValueError:
+            return JsonResponse({"status": "error", "message": "شماره تلفن شما صحیح نمیباشد"})
         request.session['phone_number'] = phone_number
         duplicated_user = User.objects.filter(phone_number__exact=phone_number).exists()
         if duplicated_user:
             return JsonResponse({"status": "error", "message": "کاربری با این شماره تلفن از قبل ثبت نام کرده است"})
-        return JsonResponse({"status": "success", "message": "کد تایید به شماره تلفن شما ارسال شد"})
+        otp_generated_code = self.otp_generator()
+        result = send_otp_code(phone_number, otp_generated_code)
+        if result:
+            otp_expire_date = datetime.datetime.now() + datetime.timedelta(minutes=+5)
+            Otp.objects.create(phone_number=phone_number, expires=otp_expire_date, code=otp_generated_code)
+            return JsonResponse({"status": "success", "message": "کد تایید به شماره تلفن شما ارسال شد"})
+        else:
+            return JsonResponse({"status": "error", "message": "هنگام ارسال پیامک خطایی رخ داد لطفا بعدا دوباره تلاش کنید"})
 
 
 class SubmitPhoneNumberView(View):
@@ -137,18 +158,14 @@ class SubmitPhoneNumberView(View):
         # if not request_type:
         #     return JsonResponse({"status": "error", "message": "لطفا نوع درخواستتون رو مشخص کنید"})
         if phone_number and otp_code:
-            if otp_code == "1234":
-                # if request_type == "intern":
-                #     redirect_url = reverse("intern_register_view")
-                # elif request_type == "jobseeker":
-                #     redirect_url = reverse("job_seeker_register_view")
-                # else:
-                #     return JsonResponse({"status": "error", "message": "لطفا نوع درخواستتون رو مشخص کنید"})
+            try:
+                Otp.objects.get(phone_number=phone_number, code=otp_code,
+                                expires__gte=datetime.datetime.now())
                 request.session['phone_number_verified'] = True
                 return JsonResponse({"status": "success",
                                      "message": "کد تایید شما تایید شد"})
-            else:
-                return JsonResponse({"status": "error", "message": "کد تایید اشتباه است"})
+            except Otp.DoesNotExist:
+                return JsonResponse({"status": "error", "message": "کد تایید اشتباه یا منقضی شده است"})
         else:
             return JsonResponse({"status": "error", "message": "شماره تلفن یا کد تایید درست وارد نشده است"})
 

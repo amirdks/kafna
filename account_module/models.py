@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
@@ -52,3 +54,19 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.full_name} ==> {self.national_code}"
+
+
+class Otp(models.Model):
+    phone_number = models.CharField(max_length=13)
+    code = models.CharField(max_length=6)
+    expires = models.DateTimeField()
+
+    class Meta:
+        verbose_name = 'کد یبار مصرف'
+        verbose_name_plural = 'کدهای یبار مصرف'
+
+    def is_valid_code(self):
+        return datetime.datetime.now() <= self.expires
+
+    def __str__(self):
+        return f"{self.phone_number} ==> {self.code}"
