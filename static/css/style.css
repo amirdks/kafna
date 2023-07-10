@@ -55,7 +55,8 @@ header {
     border-radius: 20px;
     transition: all .3s;
 }
-.navbar-user-panel:hover{
+
+.navbar-user-panel:hover {
     background-color: #797cef;
 
 }
@@ -205,7 +206,8 @@ header {
     color: white;
     text-decoration: none;
 }
-.register-quiz-btn-1{
+
+.register-quiz-btn-1 {
     background-image: linear-gradient(135deg, #881cf9 0, #4246fd 80%);
 }
 
@@ -247,7 +249,8 @@ footer span {
 .quiz-form-section {
     margin: 0 auto;
 }
-.quiz-form-section .send-otp-btn{
+
+.quiz-form-section .send-otp-btn {
     border: none;
     outline: none;
     background-color: #45ef45;
@@ -255,6 +258,7 @@ footer span {
     color: #fff;
     padding: 10px 20px;
 }
+
 .quiz-form label {
     margin-top: 15px;
     margin-bottom: 5px;
@@ -271,7 +275,8 @@ footer span {
     font-size: .9rem;
     opacity: .8;
 }
-.quiz-form button{
+
+.quiz-form button {
     margin-top: 20px;
 }
 
@@ -335,7 +340,7 @@ footer span {
     color: #fff;
 }
 
-.user-panel-container{
+.user-panel-container {
     width: 100%;
     height: 80vh;
     display: flex;
@@ -343,38 +348,45 @@ footer span {
     justify-content: center;
     flex-direction: column;
 }
-.user-panel-text{
+
+.user-panel-text {
     text-align: center;
     padding: 25px 0;
     font-size: 1.5rem;
 }
-.main-page-btn-section{
+
+.main-page-btn-section {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
-.main-page-btn-section a{
+
+.main-page-btn-section a {
     margin: 5px 0;
 }
-.submit-phone-number-container{
+
+.submit-phone-number-container {
     width: 100%;
     height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.submit-phone-number-section{
+
+.submit-phone-number-section {
     margin: 0 auto;
     width: 50%;
     background-color: #6060ce;
     padding: 50px;
     border-radius: 25px;
 }
-.submit-phone-number-section form input{
+
+.submit-phone-number-section form input {
     margin: 10px 0;
 }
-.submit-phone-number-section form button{
+
+.submit-phone-number-section form button {
     margin-top: 10px;
     border: none;
     outline: none;
@@ -383,10 +395,12 @@ footer span {
     border-radius: 20px;
     padding: 10px 20px;
 }
-.disabled-otp-btn{
-    background-color: #4A5867!important;
+
+.disabled-otp-btn {
+    background-color: #4A5867 !important;
 }
-.support-container{
+
+.support-container {
     background-color: #ccc;
     width: 50%;
     margin: 0 auto;
@@ -395,18 +409,22 @@ footer span {
     padding: 50px;
     font-size: 1.5rem;
 }
-.support-container ul li{
+
+.support-container ul li {
     margin: 20px 0;
 }
-.support-container ul li a{
+
+.support-container ul li a {
     color: #797cef;
     text-decoration: none;
 }
+
 @media screen and (max-width: 500px) {
     .register-quiz-section {
         width: 95%;
         margin-bottom: 25px;
         padding: 5px 0;
+        flex-wrap: wrap;
     }
 
     .register-quiz-title span:first-child {
@@ -425,7 +443,7 @@ footer span {
     }
 
     .register-quiz-title {
-        width: 55%;
+        width: 100%;
     }
 
     .register-quiz-title span {
@@ -437,18 +455,53 @@ footer span {
         margin: 50px auto;
     }
 
+    .navbar-items-section li a {
+        font-size: .9rem;
+    }
+
+    .logo-section h1 {
+        font-size: 1.3rem;
+    }
+
+    .logo-section img {
+        width: 40px;
+        height: 40px;
+        margin: 0 5px;
+    }
+
+    .navbar-items-section li {
+        margin: 0 5px;
+    }
+
     .quiz-form-submit-btn {
         width: 100%;
     }
 
     .text-preview-description {
         font-size: .9rem;
-        line-height: 2.4rem;
+        line-height: 1.8rem;
+        margin: 15px 0;
     }
 
     .text-preview-header {
         font-size: 1.5rem;
         line-height: 2.5rem;
+    }
+
+    .support-container {
+        padding: 10px;
+        font-size: 1rem;
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    .support-container ul li a {
+        opacity: .8;
+    }
+
+    .text-preview-section {
+        width: 90%;
+        margin: 25px auto;
     }
 
     .quiz-success-container {
@@ -458,6 +511,21 @@ footer span {
     }
 
     .quiz-success-container span {
-        font-size: 1.2rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    .quiz-btn-container {
+        width: 95%;
+    }
+
+    .quiz-success-account {
+        margin: 15px;
+        font-size: .9rem;
+    }
+
+    .quiz-success-home {
+        margin: 15px;
+        font-size: .9rem;
     }
 }

@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView
+from unidecode import unidecode
 
 from account_module.forms import RegisterForm
 from account_module.models import Otp
@@ -124,8 +125,7 @@ class SendOtpCodeView(View):
         return random.randint(0, 90000) + 10000
 
     def post(self, request: HttpRequest):
-        phone_number = request.POST.get("phone-number")
-        print(phone_number)
+        phone_number = unidecode(request.POST.get("phone-number"))
         try:
             phone_number_validator(phone_number)
         except ValueError:
