@@ -30,6 +30,11 @@
                 <i class="fa-solid fa-user"></i>
                 <span>حساب کاربری</span>
             </a>
+        {% else %}
+            <a class="navbar-user-panel" href="{% url 'login' %}">
+                <i class="fa-solid fa-user"></i>
+                <span>ورود به حساب کاربری</span>
+            </a>
         {% endif %}
         <ul class="navbar-items-section">
             <li><a href="{% url 'support_view' %}">پشتیبانی</a></li>
