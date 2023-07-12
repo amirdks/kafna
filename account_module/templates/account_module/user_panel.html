@@ -1,20 +1,55 @@
 {% extends 'shared/_layout.html' %}
 
 {% block content %}
-    <div class="user-panel-container">
-        <div class="user-panel-text">
-            سلام {{ request.user.full_name }}
+
+    <div class="container user-panel-container">
+        <div class="main-body">
+            <div class="row gutters-sm">
+
+                {% include 'account_module/includes/user_dashboard.html' %}
+
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">نام و نام خانوادگی</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ user.full_name }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">کدملی</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ user.national_code }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">شماره تلفن</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ user.phone_number }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">رمز عبور</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    ********
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        {% if answers.exists %}
-            <ul>
-                {% for answer in answers %}
-                    <li>آزمون {{ answer.quiz.field.title }} : {{ answer.correct_percent }} درصد</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <a href="{% url 'quiz_view' %}" class="quiz-success-account">
-                شرکت در آزمون
-            </a>
-        {% endif %}
     </div>
 {% endblock %}

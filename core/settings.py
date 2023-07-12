@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'quiz_module',
     'main_module',
     'account_module',
+    'polls',
 ]
 
 MIDDLEWARE = [

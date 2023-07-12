@@ -1,0 +1,159 @@
+{% extends 'shared/_layout.html' %}
+{% load poll_extras %}
+{% block content %}
+
+    <div class="container user-panel-container">
+        <div class="main-body">
+            <div class="row gutters-sm">
+
+                {% include 'account_module/includes/user_dashboard.html' %}
+
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        {% if jobseeker %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">نام دانشگاه</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ jobseeker.university_name }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">رشته</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ jobseeker.field_of_study }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">ایمیل</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ jobseeker.email }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">قیلد های انتخابی</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <ul>
+                                            {% for field in jobseeker.fields.all %}
+                                                <li>{{ field.title }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">فایل تصویر</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <a href="{{ jobseeker.image_file.url }}" download="{{ jobseeker.image_file.url }}">دانلود فایل</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elif intern %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">تاریخ تولد</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ intern.birthday }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">رشته ها</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <ul>
+                                            {% for field in intern.fields.all %}
+                                                <li>{{ field.title }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">نوع مدرسه</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ intern.educational_field.title | generate_persian }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">نام مدرسه</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ intern.school_name }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">کد دانش آموزی</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ intern.student_code }}
+                                    </div>
+                                </div>
+                                <hr>
+                               <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">پایه تحصیلی</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                       {{ intern.educational_stage | generate_persian }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">شماره والدین</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ intern.parent_phone_number }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">ایمیل</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ intern.email }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">فایل تصویر</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <a href="{{ intern.image_file.url }}" download="{{ intern.image_file.url }}">دانلود فایل</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            ابتدا باید در آزمون ثبت نام کنید
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

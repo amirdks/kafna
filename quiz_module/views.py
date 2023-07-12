@@ -3,7 +3,7 @@ import json
 import math
 import random
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, JsonResponse, HttpRequest
 from django.shortcuts import render
@@ -138,7 +138,8 @@ class SendOtpCodeView(View):
             Otp.objects.create(phone_number=phone_number, expires=otp_expire_date, code=otp_generated_code)
             return JsonResponse({"status": "success", "message": "کد تایید به شماره تلفن شما ارسال شد"})
         else:
-            return JsonResponse({"status": "error", "message": "هنگام ارسال پیامک خطایی رخ داد لطفا بعدا دوباره تلاش کنید"})
+            return JsonResponse(
+                {"status": "error", "message": "هنگام ارسال پیامک خطایی رخ داد لطفا بعدا دوباره تلاش کنید"})
 
 
 class SubmitPhoneNumberView(View):
@@ -188,7 +189,13 @@ class InternRegisterView(View):
             full_name = singup_form.cleaned_data.get("full_name")
             national_code = singup_form.cleaned_data.get("national_code")
             password = singup_form.cleaned_data.get("password")
-            new_user = User.objects.create_user(national_code, phone_number, password, full_name=full_name)
+            fields_form = InternFieldForm()
+            try:
+                new_user = User.objects.create_user(national_code, phone_number, password, full_name=full_name)
+                login(request.new_user)
+            except Exception as e:
+                return render(request, 'quiz_module/choise_fields.html',
+                              {"fields_form": fields_form, "type": "jobseeker"})
             # login(request, new_user)
             quiz_subscription = intern_register_form.save(commit=False)
             quiz_subscription.user = new_user
@@ -227,6 +234,7 @@ class JobSeekerRegisterView(View):
             fields_form = JobSeekerFieldForm()
             try:
                 new_user = User.objects.create_user(national_code, phone_number, password, full_name=full_name)
+                login(request.new_user)
             except Exception as e:
                 return render(request, 'quiz_module/choise_fields.html',
                               {"fields_form": fields_form, "type": "jobseeker"})

@@ -341,12 +341,7 @@ footer span {
 }
 
 .user-panel-container {
-    width: 100%;
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    margin: 25px auto;
 }
 
 .user-panel-text {
@@ -417,6 +412,15 @@ footer span {
 .support-container ul li a {
     color: #797cef;
     text-decoration: none;
+}
+
+.card-body form label {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.card-body form button {
+    margin-top: 25px;
 }
 
 @media screen and (max-width: 500px) {

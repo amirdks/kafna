@@ -1,0 +1,25 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+
+    <div class="container user-panel-container">
+        <div class="main-body">
+            <div class="row gutters-sm">
+
+                {% include 'account_module/includes/user_dashboard.html' %}
+
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <form action="{% url 'user_panel_register_edit_view' %}" method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="submit" class="btn btn-success">ارسال</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
