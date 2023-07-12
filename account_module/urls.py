@@ -4,6 +4,7 @@ from account_module import views
 
 urlpatterns = [
     path("profile/", views.UserPanelView.as_view(), name="user_panel_view"),
+    path("forget-password/", views.ForgetPasswordView.as_view(), name="forget-password"),
     path("user-panel/password-edit/", views.UserChangePasswordView.as_view(), name="user_panel_password_edit_view"),
     path("user-panel/register-detail/", views.UserPanelRegisterDetailView.as_view(),
          name="user_panel_register_detail_view"),

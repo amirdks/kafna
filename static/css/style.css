@@ -286,6 +286,18 @@ footer span {
     opacity: 1;
     margin-top: 25px;
 }
+.forget-pass-form{
+    margin: 50px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.forget-pass-form h2{
+    margin: 10px 0;
+}
+.forget-pass-form form{
+    margin: 0 auto;
+}
 
 .quiz-footer span {
     color: black;

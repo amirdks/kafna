@@ -98,3 +98,18 @@ class ChangePasswordForm(forms.Form):
                                    label="رمز عبور فعلی")
     new_password = forms.CharField(max_length=255, widget=forms.PasswordInput(attrs={"class": "form-control"}),
                                    label="رمز عبور جدید")
+
+
+class ForgetPasswordForm(forms.Form):
+    new_password = forms.CharField(max_length=255, widget=forms.PasswordInput(attrs={"class": "form-control"}),
+                                   label="رمز عبور جدید")
+    re_new_password = forms.CharField(max_length=255, widget=forms.PasswordInput(attrs={"class": "form-control"}),
+                                   label="تکرار رمز عبور جدید")
+
+    def clean_re_new_password(self):
+        re_new_password = self.cleaned_data.get("re_new_password")
+        new_password = self.cleaned_data.get("new_password")
+        if re_new_password == new_password:
+            return re_new_password
+        else:
+            raise forms.ValidationError("کلمه عبور با تکرار کلمه عبور یکی نیست")
