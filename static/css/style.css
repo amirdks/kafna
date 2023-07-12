@@ -430,6 +430,13 @@ footer span {
         padding: 5px 0;
         flex-wrap: wrap;
     }
+    .navbar-user-panel{
+        order: 3;
+        margin-top: 10px;
+    }
+    #navbar{
+        flex-wrap: wrap;
+    }
 
     .register-quiz-title span:first-child {
         font-size: 1rem;
