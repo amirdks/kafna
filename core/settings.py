@@ -27,7 +27,7 @@ SECRET_KEY =  os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG") == "True"
 
-ALLOWED_HOSTS = ["193.107.48.6:8180", "kafna.ir", "www.kafna.ir", "127.0.0.1", "0.0.0.0", "localhost"]
+ALLOWED_HOSTS = ["193.107.48.6:8180","193.107.48.6", "kafna.ir", "www.kafna.ir", "127.0.0.1", "0.0.0.0", "localhost"]
 CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1", "https://kafna.ir", "http://0.0.0.0", "http://193.107.48.6:8180/"]
 # Application definition
 
